@@ -18,6 +18,7 @@
 		CE397BC323633F920001A6E2 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE397BC123633F920001A6E2 /* MainInterface.storyboard */; };
 		CE397BC723633F920001A6E2 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CE397BBB23633F920001A6E2 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CE397BCD236343A10001A6E2 /* Action.js in Resources */ = {isa = PBXBuildFile; fileRef = CE397BCC236343A10001A6E2 /* Action.js */; };
+		CE397BCF236480620001A6E2 /* Scripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE397BCE236480620001A6E2 /* Scripts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		CE397BC223633F920001A6E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		CE397BC423633F920001A6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE397BCC236343A10001A6E2 /* Action.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Action.js; sourceTree = "<group>"; };
+		CE397BCE236480620001A6E2 /* Scripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scripts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				CE397BBD23633F920001A6E2 /* Media.xcassets */,
 				CE397BBF23633F920001A6E2 /* ActionViewController.swift */,
 				CE397BC123633F920001A6E2 /* MainInterface.storyboard */,
+				CE397BCE236480620001A6E2 /* Scripts.swift */,
 				CE397BC423633F920001A6E2 /* Info.plist */,
 				CE397BCC236343A10001A6E2 /* Action.js */,
 			);
@@ -237,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE397BCF236480620001A6E2 /* Scripts.swift in Sources */,
 				CE397BC023633F920001A6E2 /* ActionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

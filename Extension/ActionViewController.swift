@@ -15,12 +15,18 @@ class ActionViewController: UIViewController {
 
     var pageTitle = ""
     var pageURL = ""
+    var scripts = ["Title" : "alert(document.title);"]
+    var selectedScript: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(selectScript))
+        
+        let scripts = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(selectScript))
+        let save = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveScript))
+        
+        navigationItem.leftBarButtonItems = [scripts, save]
     
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -47,16 +53,55 @@ class ActionViewController: UIViewController {
                 }
             }
         }
+        let url = URL(string: pageURL)
+    
+        UserDefaults.standard.set(url, forKey: "url")
+        UserDefaults.standard.set(pageTitle, forKey: "title")
         
     }
     
-    @objc func selectScript () {
-        let ac = UIAlertController(title: "Choose JavaScript", message: nil, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Display Title", style: .default, handler: { (alert) in
-            self.script.text = "alert(document.title);"
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let selectedScript = selectedScript {
+            script.text = selectedScript
+            print("View will appear")
+        }
+
+    }
+    
+    @objc func saveScript() {
+        
+        let ac = UIAlertController(title: "Save Script", message: "Please eneter a name...  ", preferredStyle: .alert)
+        ac.addTextField()
+        
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { (alert) in
+            //Add textfield text to sciptname
+            let scriptName = ac.textFields?[0].text ?? "New Script"
+            self.scripts[scriptName] = self.script.text
+
         }))
         
         present(ac, animated: true)
+    }
+    
+    @objc func selectScript () {
+//        let ac = UIAlertController(title: "Choose JavaScript", message: nil, preferredStyle: .alert)
+//        ac.addAction(UIAlertAction(title: "Display Title", style: .default, handler: { (alert) in
+//            self.script.text = "alert(document.title);"
+//        }))
+//
+//        present(ac, animated: true)
+        
+        //SEGUE to tableview
+        
+              
+        performSegue(withIdentifier: "Scripts", sender: self)
+  
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! Scripts
+        vc.scripts = scripts
     }
     
     @objc func adjustForKeyboard(notification: Notification) {
