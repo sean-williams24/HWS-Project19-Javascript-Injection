@@ -21,6 +21,11 @@ class ActionViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
     
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        
         //inputItems will be an array of data the parent app is sending to our extension to use.
         if let inputItems = extensionContext?.inputItems.first as? NSExtensionItem {
             
@@ -42,6 +47,27 @@ class ActionViewController: UIViewController {
             }
         }
         
+    }
+    
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        // Convert frame from size of screen which will now be the correct size of the kyboard
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        //Check if we are hiding
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            script.contentInset = .zero
+        } else {
+            script.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+        }
+        
+        script.scrollIndicatorInsets = script.contentInset
+        
+        //Make scroll view scroll down to show what user has just tapped on
+        let selectedRange = script.selectedRange
+        script.scrollRangeToVisible(selectedRange)
     }
 
     @IBAction func done() {
