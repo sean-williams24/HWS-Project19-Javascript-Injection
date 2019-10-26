@@ -20,6 +20,7 @@ class ActionViewController: UIViewController {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(selectScript))
     
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -47,6 +48,15 @@ class ActionViewController: UIViewController {
             }
         }
         
+    }
+    
+    @objc func selectScript () {
+        let ac = UIAlertController(title: "Choose JavaScript", message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Display Title", style: .default, handler: { (alert) in
+            self.script.text = "alert(document.title);"
+        }))
+        
+        present(ac, animated: true)
     }
     
     @objc func adjustForKeyboard(notification: Notification) {
